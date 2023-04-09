@@ -18,6 +18,7 @@ while cap.isOpened():
     if results.multi_hand_landmarks:
         num_hands = len(results.multi_hand_landmarks)  # get number of detected hands
         print("Number of hands detected:", num_hands, "\n")  # print the number of detected hands
+
         for num, hand_landmarks in enumerate(results.multi_hand_landmarks):
             mp_drawing.draw_landmarks(image, hand_landmarks, mp_hands.HAND_CONNECTIONS)
             if num == 0:
@@ -28,7 +29,6 @@ while cap.isOpened():
                 print(f'{mp_hands.HandLandmark(i).name} ', hand, ":")      #name of land mark
                 print(f'{hand_landmarks.landmark[mp_hands.HandLandmark(i).value]}')        #landmark value
             
-
     cv2.imshow('MediaPipe Hands', image)
     if cv2.waitKey(5) & 0xFF == 27:
         break
