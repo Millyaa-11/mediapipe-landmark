@@ -1,137 +1,113 @@
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
+/* Copyright 2022 The MediaPipe Authors.
 
-.abs {
-  position: absolute;
-}
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
 
-a {
-  color: white;
-  text-decoration: none;
-  &:hover {
-    color: lightblue;
-  }
-}
+     http://www.apache.org/licenses/LICENSE-2.0
 
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License. */
+
+@use "@material";
 body {
-  bottom: 0;
-  font-family: 'Titillium Web', sans-serif;
-  color: white;
-  left: 0;
-  margin: 0;
-  position: absolute;
-  right: 0;
-  top: 0;
-  transform-origin: 0px 0px;
-  overflow: hidden;
+  font-family: roboto;
+  margin: 2em;
+  color: #3d3d3d;
+  --mdc-theme-primary: #007f8b;
+  --mdc-theme-on-primary: #f1f3f4;
 }
 
-.container {
-  position: absolute;
-  background-color: #596e73;
-  width: 100%;
-  max-height: 100%;
+h1 {
+  color: #007f8b;
 }
 
-.input_video {
+h2 {
+  clear: both;
+}
+
+em {
+  font-weight: bold;
+}
+
+video {
+  clear: both;
+  display: block;
+  transform: rotateY(180deg);
+  -webkit-transform: rotateY(180deg);
+  -moz-transform: rotateY(180deg);
+}
+
+section {
+  opacity: 1;
+  transition: opacity 500ms ease-in-out;
+}
+
+header,
+footer {
+  clear: both;
+}
+
+.removed {
   display: none;
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  &.selfie {
-    transform: scale(-1, 1);
-  }
 }
 
-.input_image {
+.invisible {
+  opacity: 0.2;
+}
+
+.note {
+  font-style: italic;
+  font-size: 130%;
+}
+
+.videoView,
+.detectOnClick {
+  position: relative;
+  float: left;
+  width: 48%;
+  margin: 2% 1%;
+  cursor: pointer;
+}
+
+.videoView p,
+.detectOnClick p {
+  position: absolute;
+  padding: 5px;
+  background-color: #007f8b;
+  color: #fff;
+  border: 1px dashed rgba(255, 255, 255, 0.7);
+  z-index: 2;
+  font-size: 12px;
+  margin: 0;
+}
+
+.highlighter {
+  background: rgba(0, 255, 0, 0.25);
+  border: 1px dashed #fff;
+  z-index: 1;
   position: absolute;
 }
 
-.canvas-container {
-  display:flex;
-  height: 100%;
-  width: 100%;
-  justify-content: center;
-  align-items:center;
+.canvas {
+  z-index: 1;
+  position: absolute;
+  pointer-events: none;
 }
 
 .output_canvas {
+  transform: rotateY(180deg);
+  -webkit-transform: rotateY(180deg);
+  -moz-transform: rotateY(180deg);
+}
+
+.detectOnClick {
+  z-index: 0;
+}
+
+.detectOnClick img {
   width: 100%;
-  display: block;
-  position: relative;
-  left: 0;
-  top: 0;
-}
-
-.logo {
-  bottom: 10px;
-  right: 20px;
-
-  .title {
-    color: white;
-    font-size: 28px;
-  }
-
-  .subtitle {
-    position: relative;
-    color: white;
-    font-size: 10px;
-    left: -30px;
-    top: 20px;
-  }
-}
-
-.control-panel {
-  position: absolute;
-  left: 10px;
-  top: 10px;
-}
-
-.loading {
-  display: flex;
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  align-items: center;
-  backface-visibility: hidden;
-  justify-content: center;
-  opacity: 1;
-  transition: opacity 1s;
-
-  .message {
-    font-size: x-large;
-  }
-
-  .spinner {
-    position: absolute;
-    width: 120px;
-    height: 120px;
-    animation: spin 1s linear infinite;
-    border: 32px solid #bebebe;
-    border-top: 32px solid #3498db;
-    border-radius: 50%;
-  }
-}
-
-.loaded .loading {
-  opacity: 0;
-}
-
-.shoutout {
-  left: 0;
-  right: 0;
-  bottom: 40px;
-  text-align: center;
-  font-size: 24px;
-  position: absolute;
 }
