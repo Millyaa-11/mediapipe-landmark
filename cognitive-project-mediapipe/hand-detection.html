@@ -1,14 +1,18 @@
 <!DOCTYPE html>
 <html>
 <head>
-
   <meta charset="UTF-8">
   <title>MediaPipe Hand Detection Example</title>
 </head>
 <body>
-  <video id="video" width="640" height="480" autoplay></video>
-  <canvas id="canvas" style="border: 1px solid black;"width="640" height="480"></canvas>
+  <div class="container">
+    <video class="input_video"></video>
+    <canvas class="output_canvas" width="1280px" height="720px"></canvas>
+  </div>
   <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/control_utils/control_utils.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js" crossorigin="anonymous"></script>
   <script src="./hand-detection.js"></script>
 </body>
 </html>

@@ -1,38 +1,34 @@
-// Load the MediaPipe Hand Detection model.
+const videoElement = document.getElementsByClassName('input_video')[0];
+const canvasElement = document.getElementsByClassName('output_canvas')[0];
+const canvasCtx = canvasElement.getContext('2d');
+function onResults(results) {
+  canvasCtx.save();
+  canvasCtx.clearRect(0, 0, canvasElement.width, canvasElement.height);
+  canvasCtx.drawImage(
+      results.image, 0, 0, canvasElement.width, canvasElement.height);
+  if (results.multiHandLandmarks) {
+    for (const landmarks of results.multiHandLandmarks) {
+      drawConnectors(canvasCtx, landmarks, HAND_CONNECTIONS,
+                     {color: '#00FF00', lineWidth: 5});
+      drawLandmarks(canvasCtx, landmarks, {color: '#FF0000', lineWidth: 2});
+    }
+  }
+  canvasCtx.restore();
+}
 const hands = new Hands({locateFile: (file) => {
   return `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`;
 }});
 hands.setOptions({
-  maxNumHands: 2, // Only detect 2 hand
+  maxNumHands: 2,
+  minDetectionConfidence: 0.5,
+  minTrackingConfidence: 0.5
 });
-
-// Start the video stream from the camera.
-const video = document.getElementById('video');
-navigator.mediaDevices.getUserMedia({video: true}).then((stream) => {
-  video.srcObject = stream;
-  hands.initialize(video);
-  console.log("Camera On")
+hands.onResults(onResults);
+const camera = new Camera(videoElement, {
+  onFrame: async () => {
+    await hands.send({image: videoElement});
+  },
+  width: 1280,
+  height: 720
 });
-
-// Detect hands in each video frame and draw landmarks on the canvas.
-const canvas = document.getElementById('canvas');
-const context = canvas.getContext('2d');
-
-hands.onResults((results) => {
-  console.log('Got results:', results);
-  context.clearRect(0, 0, canvas.width, canvas.height);
-  if (results.multiHandLandmarks) {
-    console.log('Detected landmarks:', results.multiHandLandmarks);
-    for (const landmarks of results.multiHandLandmarks) {
-      for (const landmark of landmarks) {
-        // Print the coordinates of the landmark.
-        console.log(`Landmark ${landmark.x}, ${landmark.y}, ${landmark.z}`);
-        // Draw a circle at the landmark position.
-        context.beginPath();
-        context.arc(landmark.x * canvas.width, landmark.y * canvas.height, 5, 0, 2 * Math.PI);
-        context.fillStyle = '#00FF00';
-        context.fill();
-      }
-    }
-  }
-});
+camera.start();
