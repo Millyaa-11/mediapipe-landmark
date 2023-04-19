@@ -23,6 +23,9 @@ hands.setOptions({
   minDetectionConfidence: 0.5,
   minTrackingConfidence: 0.5
 });
+hands.initialize().then(() => {
+  return hands;
+});
 hands.onResults(onResults);
 const camera = new Camera(videoElement, {
   onFrame: async () => {
