@@ -14,6 +14,7 @@ function onResults(results) {
     }
   }
   canvasCtx.restore();
+  console.log("bich")
 }
 const hands = new Hands({locateFile: (file) => {
   return `https://cdn.jsdelivr.net/npm/@mediapipe/hands@0.3.1632795355/${file}`;
@@ -23,12 +24,13 @@ hands.setOptions({
   minDetectionConfidence: 0.5,
   minTrackingConfidence: 0.5
 });
-hands.initialize().then(() => {
-  return hands;
-});
+
+
 hands.onResults(onResults);
+
 const camera = new Camera(videoElement, {
   onFrame: async () => {
+    console.log("nigg")
     await hands.send({image: videoElement});
   },
   width: 1280,
