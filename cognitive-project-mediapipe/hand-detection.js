@@ -7,14 +7,29 @@ function onResults(results) {
   canvasCtx.drawImage(
       results.image, 0, 0, canvasElement.width, canvasElement.height);
   if (results.multiHandLandmarks) {
-    for (const landmarks of results.multiHandLandmarks) {
-      drawConnectors(canvasCtx, landmarks, HAND_CONNECTIONS,
-                     {color: '#00FF00', lineWidth: 5});
-      drawLandmarks(canvasCtx, landmarks, {color: '#FF0000', lineWidth: 2});
+    for (let i = 0; i < results.multiHandLandmarks.length; i++) {
+      const landmarks = results.multiHandLandmarks[i];
+      if (results.multiHandedness) {
+        let hand;
+        if (i == 0) {
+          hand = 'Hand 1';
+        } else {
+          hand = 'Hand 2';
+        }
+        console.log(`${hand}:`);
+      }
+      if (landmarks.length > 0) {
+        for (let j = 0; j < landmarks.length; j++) {
+          const landmark = landmarks[j];
+          console.log(`Landmark ${j}: (${landmark.x}, ${landmark.y}, ${landmark.z})`);
+        }
+        drawConnectors(canvasCtx, landmarks, HAND_CONNECTIONS,
+                       {color: '#00FF00', lineWidth: 5});
+        drawLandmarks(canvasCtx, landmarks, {color: '#FF0000', lineWidth: 2});
+      }
     }
   }
   canvasCtx.restore();
-  console.log("bich")
 }
 const hands = new Hands({locateFile: (file) => {
   return `https://cdn.jsdelivr.net/npm/@mediapipe/hands@0.3.1632795355/${file}`;
@@ -25,12 +40,10 @@ hands.setOptions({
   minTrackingConfidence: 0.5
 });
 
-
 hands.onResults(onResults);
 
 const camera = new Camera(videoElement, {
   onFrame: async () => {
-    console.log("nigg")
     await hands.send({image: videoElement});
   },
   width: 1280,
